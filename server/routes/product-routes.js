@@ -79,4 +79,4 @@ function createRouter(connection) {
     return router;
 }
 
-module.exports = createRouter;
+export default createRouter;

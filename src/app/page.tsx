@@ -1,19 +1,31 @@
-import Image from "next/image";
+'use client';
 import Link from "next/link";
 import Navbar from "./components/Navbar";
 import { useEffect, useState } from "react";
+import { getAllProducts } from './api/products'; // Adjust the import path as necessary
+
+type Product = {
+    id: number;
+    title: string;
+    img: string;
+    price: number;
+};
 
 export default function Home() {
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            const response = await fetch('/api/products');
-            const data = await response.json();
-            setProducts(data);
+        const loadProducts = async () => {
+            try {
+                const data = await getAllProducts();
+                setProducts(data);
+                console.log(data);
+            } catch (error) {
+                console.error("Failed to load products:", error);
+            }
         };
 
-        fetchProducts();
+        loadProducts();
     }, []);
 
     return (
@@ -26,7 +38,7 @@ export default function Home() {
             <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {products.map((product) => (
                     <div key={product.id} className="border rounded-lg p-4">
-                        <Image
+                        <img
                             src={product.img}
                             alt={product.title}
                             width={300}
@@ -35,7 +47,7 @@ export default function Home() {
                         />
                         <h2 className="text-xl font-semibold mt-2">{product.title}</h2>
                         <p className="text-lg text-gray-700">{product.price}</p>
-                        <Link href={`/products/${product.id}`} className="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded">
+                        <Link href={`/product/${product.id}`} className="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded">
                             View Details
                         </Link>
                     </div>

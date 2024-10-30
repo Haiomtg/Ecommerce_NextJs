@@ -62,4 +62,4 @@ function createUserRouter(connection) {
     return router;
 }
 
-module.exports = createUserRouter;
+export default createUserRouter;
