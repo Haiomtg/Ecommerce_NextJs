@@ -7,7 +7,7 @@ import notFound from "./middleware/notFound.js";
 import productRoutes from "./routes/product-routes.js";
 import cartRoutes from "./routes/cart-routes.js";
 import userRoutes from "./routes/user-route.js";
-import connection from "./database/db.js";
+import { connectDB } from "./database/db.js";
 const corsOptions = {
     origin: "*",
     optionsSuccessStatus: 200
@@ -16,9 +16,11 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-app.use("/api/product", productRoutes(connection));
-app.use("/api/cart", cartRoutes(connection));
-app.use("/api/user", userRoutes(connection));
+connectDB();
+
+app.use("/api/product", productRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/user", userRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
