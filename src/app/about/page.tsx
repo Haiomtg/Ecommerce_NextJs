@@ -1,8 +1,13 @@
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+
 const About = () => {
   return (
-    <div className="min-h-screen p-8 bg-gray-50">
-      <h1 className="text-4xl font-bold text-center text-gray-800">About Us</h1>
-      <p className="mt-4 text-lg text-gray-700">
+    <>
+        <Navbar />
+        <div className="min-h-screen p-8 bg-gray-50">
+            <h1 className="text-4xl font-bold text-center text-gray-800">About Us</h1>
+            <p className="mt-4 text-lg text-gray-700">
         Welcome to our eCommerce store! We are dedicated to providing the best products and services to our customers.
       </p>
       <p className="mt-2 text-lg text-gray-700">
@@ -32,8 +37,10 @@ const About = () => {
       </p>
       <p className="mt-2 text-lg text-gray-700">
         Thank you for choosing us for your shopping needs. We look forward to serving you!
-      </p>
-    </div>
+            </p>
+        </div>
+        <Footer />
+    </>
   );
 };
 

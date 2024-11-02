@@ -15,6 +15,8 @@ type Product = {
 export default function Home() {
     const [products, setProducts] = useState<Product[]>([]);
     const [searchQuery, setSearchQuery] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 10;
 
     useEffect(() => {
         const loadProducts = async () => {
@@ -33,6 +35,11 @@ export default function Home() {
         product.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+    const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
     return (
         <div className="min-h-screen flex flex-col bg-gray-100 text-gray-800">
             <header className="mb-8 p-4 bg-white shadow-md">
@@ -50,7 +57,7 @@ export default function Home() {
             </header>
 
             <main className="flex-grow p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredProducts.map((product) => (
+                {currentProducts.map((product) => (
                     <div key={product.id} className="border rounded-lg p-4 bg-white shadow hover:shadow-lg transition-shadow duration-200">
                         <img
                             src={product.img}
@@ -65,6 +72,18 @@ export default function Home() {
                     </div>
                 ))}
             </main>
+
+            <div className="flex justify-center mb-4">
+                {Array.from({ length: totalPages }, (_, index) => (
+                    <button
+                        key={index + 1}
+                        onClick={() => setCurrentPage(index + 1)}
+                        className={`mx-1 px-4 py-2 rounded ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}
+                    >
+                        {index + 1}
+                    </button>
+                ))}
+            </div>
 
             <Footer />
         </div>
